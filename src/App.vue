@@ -29,7 +29,7 @@
     </div>
   </nav>
 
-  <div class="container py-3">
+  <div class="container py-3 d-flex">
     <RouterView />
   </div>
 </template>
