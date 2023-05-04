@@ -3,6 +3,6 @@
 </template>
 
 <style scoped>
-.cls-1{fill:#000;}
-.cls-2{fill:none;stroke:#000;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;}.cls-3{fill:#fff;}
+.cls-1{fill:#fff;}
+.cls-2{fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;}.cls-3{fill:#000;}
 </style>
