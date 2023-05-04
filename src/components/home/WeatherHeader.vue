@@ -1,9 +1,6 @@
 <template>
     <div 
       class="d-flex container" 
-      :class="{
-        'bgNight' : store.dataWeatherHeader.currentWeather.is_day == 0
-      }" 
       style="color: white;" 
       :style="{backgroundColor : store.dataWeatherHeader.weatherColor }"
     >
@@ -119,13 +116,13 @@
         if(val == 0 || val == 1){
         store.dataWeatherHeader.weather = "Clear"
         store.dataWeatherHeader.weatherImg = "sunIcon.png"
-        store.dataWeatherHeader.weatherColor = "#11316a"
+        store.dataWeatherHeader.weatherColor = "#48cbff"
         }
 
         else if(val == 2 || val == 3){
         store.dataWeatherHeader.weather = "Cloudy"
         store.dataWeatherHeader.weatherImg = "cloudyDayIcon.png"
-        store.dataWeatherHeader.weatherColor = "#1c1d4b"
+        store.dataWeatherHeader.weatherColor = "#49adf9"
         }
 
         else if(val == 45 || val == 48){

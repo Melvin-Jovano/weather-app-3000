@@ -1,7 +1,7 @@
 <template>
   <Navbar />
 
-  <div class="container py-3 d-flex">
+  <div class="container py-3 d-flex flex-column">
     <RouterView />
   </div>
 </template>
