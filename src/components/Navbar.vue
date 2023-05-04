@@ -11,6 +11,10 @@
             </div>
           </button>
 
+          <button v-if="homeStore.filter !== null" @click="removeFilter()" class="btn btn-sm btn-danger">
+            <i class="fas fa-times"></i>
+          </button>
+
           <ul v-if="cities.length > 0" class="dropdown-menu show" aria-labelledby="dropdownMenu2" data-bs-popper="static">
             <li v-for="city in cities">
               <button @click="selectCity(city)" class="dropdown-item" type="button">{{city.display_name}}</button>
@@ -42,7 +46,9 @@
 <script setup>
   import axios from 'axios';
   import {ref} from 'vue';
+  import { homeStores } from '../stores/home';
 
+  const homeStore = homeStores();
   const cities = ref([]);
   const isLoading = ref(false);
   const city = ref('');
@@ -70,6 +76,16 @@
     }
   }
 
+  function removeFilter() {
+    try {
+      homeStore.filter = null;
+      city.value = '';
+      homeStore.weatherHeaderKey++;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   function selectCity({display_name, lon, lat}) {
     try {
       selectedCity.value = {
@@ -79,6 +95,14 @@
       };
       cities.value = [];
       city.value = display_name;
+
+      homeStore.filter = {
+        display_name, 
+        lon, 
+        lat
+      };
+
+      homeStore.weatherHeaderKey++;
     } catch (error) {
       console.error(error);
     }
