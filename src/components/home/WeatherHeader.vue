@@ -1,9 +1,23 @@
 <template>
     <div 
-      class="d-flex container" 
-      style="color: white;" 
+      class="d-flex container position-relative" 
+      style="color: white;background-color: ;"
       :style="{backgroundColor : store.dataWeatherHeader.weatherColor }"
     >
+      
+    <div class="position-absolute" style="right:30px;top:30px;cursor:pointer">
+        <a 
+        target="_blank" 
+        :href="`http://wa.me/?text=Forecast On:%0A%0A*${store.dataWeatherHeader.location}*%0A%0AWeather: ${store.dataWeatherHeader.weather}
+        %0ATemperature: ${Math.round(Number(store.dataWeatherHeader.currentWeather.temperature))}°c
+        %0AWind speed: ${store.dataWeatherHeader.currentWeather.windspeed} Km/h
+        %0AHumidity: ${store.dataWeatherHeader.humidity} %
+        %0AUV Index: ${store.dataWeatherHeader.uv}
+        %0AAir Pressure: ${store.dataWeatherHeader.pressure} hPa`">
+          <img src="/svg/whatsapp.svg" width="40" />
+        </a>
+      </div>
+
       <div class="d-flex justify-content-center align-items-center" style="width: 250px; height: 250px;">
         <img :src="'/images/' + store.dataWeatherHeader.weatherImg" alt="" width="180" height="180" style="pointer-events: none;">
       </div>
