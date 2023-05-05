@@ -114,11 +114,6 @@
         }
     }
 
-    if(store.filter === null) {
-        store.data7Days = []
-        getData(-6.21, 106.85);
-    }else{
-        store.data7Days = []
-        getData(store.filter.lat, store.filter.lon)
-    }
+    store.data7Days = []
+    getData(store.selectedLatLon[0], store.selectedLatLon[1])
 </script>

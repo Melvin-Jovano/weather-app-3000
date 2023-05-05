@@ -31,6 +31,8 @@ export const homeStores = defineStore('homeStores', () => {
 
   return {
     weatherHeaderKey,
+    dataWeather7Days,
+    data7Days,
     isFilter,
     defaultLatLon,
     selectedLatLon,
