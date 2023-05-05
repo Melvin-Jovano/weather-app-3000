@@ -1,7 +1,12 @@
 <template>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae similique debitis voluptates ex quam molestiae excepturi quas amet ad nostrum dicta in, impedit temporibus obcaecati vel nemo iste eaque eligendi.
+  <div class="mb-3" v-for="fav in favs">
+    <WeatherBody :lat="Number(fav.lat)" :lon="Number(fav.lon)" />
+  </div>
 </template>
 
 <script setup>
+  import WeatherBody from '../components/favourites/WeatherBody.vue';
+  import {ref} from 'vue';
 
+  const favs = ref(JSON.parse(localStorage.getItem('favouriteLocations') ?? '[]'));
 </script>
