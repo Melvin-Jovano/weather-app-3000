@@ -3,7 +3,7 @@
     <div class="container">
       <a class="navbar-brand" href="#">
         <form class="d-flex dropdown" @submit.prevent="findCities()">
-          <input @keyup="findCities()" v-model="city" class="form-control me-2 form-control-sm small" type="search" placeholder="Tokyo, Seoul..." aria-label="Search">
+          <input @keyup="findCities()" v-model="city" class="form-control me-2 form-control-sm small" type="search" placeholder="Find City" aria-label="Search">
           
           <button v-if="isLoading" class="bg-transparent border-0">
             <div class="spinner-border spinner-border-sm" role="status">
@@ -11,7 +11,7 @@
             </div>
           </button>
 
-          <button v-if="homeStore.filter !== null" @click="removeFilter()" class="btn btn-sm btn-danger">
+          <button v-if="homeStore.isFilter" @click="removeFilter()" class="btn btn-sm btn-danger">
             <i class="fas fa-times"></i>
           </button>
 
@@ -108,8 +108,9 @@
 
   function removeFilter() {
     try {
-      homeStore.filter = null;
+      homeStore.isFilter = false;
       city.value = '';
+      homeStore.selectedLatLon = homeStore.defaultLatLon;
       homeStore.weatherHeaderKey++;
     } catch (error) {
       console.error(error);
@@ -125,13 +126,9 @@
       };
       cities.value = [];
       city.value = display_name;
+      homeStore.isFilter = true;
 
-      homeStore.filter = {
-        display_name, 
-        lon, 
-        lat
-      };
-
+      homeStore.selectedLatLon = [lat, lon];
       homeStore.weatherHeaderKey++;
     } catch (error) {
       console.error(error);

@@ -3,8 +3,10 @@ import { defineStore } from 'pinia';
 
 export const homeStores = defineStore('homeStores', () => {
   const weatherHeaderKey = ref(1);
-  const filter = ref(null);
-  const unit = ref("");
+  const defaultLatLon = ref([-6.21, 106.85]);
+  const isFilter = ref(false);
+  const unit = ref("")
+  const selectedLatLon = ref(defaultLatLon.value);
   const dataWeatherHeader = reactive(
     {
         "location" : "",
@@ -32,10 +34,13 @@ export const homeStores = defineStore('homeStores', () => {
 
   return {
     weatherHeaderKey,
-    filter,
-    unit,
     dataWeatherHeader,
     data7Days,
+    isFilter,
+    defaultLatLon,
+    selectedLatLon,
+    dataWeatherHeader,
+    unit,
     dataWeather7Days
   }
 })
