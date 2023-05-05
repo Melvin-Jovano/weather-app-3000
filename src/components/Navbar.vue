@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav :class="`navbar navbar-expand-lg ${mode === 'light' ? 'bg-light' : 'bg-dark'}`">
     <div class="container">
       <a class="navbar-brand" href="#">
         <form class="d-flex dropdown" @submit.prevent="findCities()">
@@ -27,18 +27,18 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul :class="`navbar-nav me-auto mb-2 mb-lg-0`">
           <li class="nav-item">
-            <router-link class="nav-link" active-class="active" to="/">Home</router-link>
+            <router-link :class="`nav-link ${mode === 'light' ? 'text-dark' : 'text-light'}`" active-class="active" to="/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" active-class="active" to="/favourites">Favourites</router-link>
+            <router-link :class="`nav-link ${mode === 'light' ? 'text-dark' : 'text-light'}`" active-class="active" to="/favourites">Favourites</router-link>
           </li>
         </ul>
         <form class="d-flex">
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-            <label class="form-check-label small" for="flexSwitchCheckChecked">Dark mode</label>
+            <input @change="setMode($event.target.checked)" :checked="mode === 'dark'" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+            <label :class="`${mode === 'light' ? 'text-dark' : 'text-light'} form-check-label small`" for="flexSwitchCheckChecked">Dark mode</label>
           </div>
         </form>
         <div class="mx-3">
@@ -46,8 +46,8 @@
           class="btn me-2"
           :class="{
             'btn-primary' : homeStore.unit == '',
-            'btn-light' : homeStore.unit == '&temperature_unit=fahrenheit'
-            }" 
+            'btn-light' : homeStore.unit == '&temperature_unit=fahrenheit',
+          }" 
           @click="celcius">
             Celcius
           </button>
@@ -56,7 +56,7 @@
           :class="{
             'btn-primary' : homeStore.unit == '&temperature_unit=fahrenheit',
             'btn-light' : homeStore.unit == ''
-            }"
+          }"
           @click="fahrenheit">
             Fahrenheit
           </button>
@@ -72,6 +72,7 @@
   import { homeStores } from '../stores/home';
   import { favouritesStores } from '../stores/favourites';
 
+  const mode = ref(localStorage.getItem('mode') ?? 'light');
   const favouritesStore = favouritesStores();
   const homeStore = homeStores();
   const cities = ref([]);
@@ -80,13 +81,13 @@
   const timeoutId = ref(null);
   const selectedCity = ref(null);
 
-  function celcius(){
+  function celcius() {
     homeStore.unit = "";
     homeStore.weatherHeaderKey++;
     favouritesStore.weatherHeaderKey++;
   }
 
-  function fahrenheit(){
+  function fahrenheit() {
     homeStore.unit = "&temperature_unit=fahrenheit";
     homeStore.weatherHeaderKey++;
     favouritesStore.weatherHeaderKey++;
@@ -139,6 +140,16 @@
       homeStore.weatherHeaderKey++;
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  function setMode(val) {
+    if(val) {
+      localStorage.setItem('mode', 'dark');
+      location.reload();
+    } else {
+      localStorage.setItem('mode', 'light');
+      location.reload();
     }
   }
 </script>
