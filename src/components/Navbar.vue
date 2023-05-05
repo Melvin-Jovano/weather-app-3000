@@ -70,7 +70,9 @@
   import axios from 'axios';
   import {ref} from 'vue';
   import { homeStores } from '../stores/home';
+  import { favouritesStores } from '../stores/favourites';
 
+  const favouritesStore = favouritesStores();
   const homeStore = homeStores();
   const cities = ref([]);
   const isLoading = ref(false);
@@ -81,11 +83,13 @@
   function celcius(){
     homeStore.unit = "";
     homeStore.weatherHeaderKey++;
+    favouritesStore.weatherHeaderKey++;
   }
 
   function fahrenheit(){
     homeStore.unit = "&temperature_unit=fahrenheit";
     homeStore.weatherHeaderKey++;
+    favouritesStore.weatherHeaderKey++;
   }
   
   async function findCities() {

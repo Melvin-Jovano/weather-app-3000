@@ -38,7 +38,7 @@
               {{ weather.weather || "Weather" }}
             </h1>
             <h4>
-              {{ Math.round(Number(weather.currentWeather.temperature)) || "-" }}°c
+              {{ Math.round(Number(weather.currentWeather.temperature)) || "-" }}{{ weather.unitSymbol }}
             </h4>
           </div>
           <div class="d-flex flex-row align-items-end mb-4 me-4">
@@ -106,7 +106,9 @@
     import IconPressure from '@/components/icons/IconPressure.vue';
     import axios from 'axios';
     import {ref} from 'vue';
+    import { homeStores } from '../../stores/home';
 
+    const homeStore = homeStores();
     const props = defineProps({
         lat: {
             type: Number,
@@ -118,7 +120,6 @@
         }
     });
 
-    const favLocations = ref([]);
     const weather = ref({
         "location" : "",
         "currentWeather" : {},
@@ -226,10 +227,10 @@
       }
     }
 
-    async function getData(lat, long) {
+    async function getData(lat, long, unit) {
     try {
         const getWeather = await axios.get(
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,relativehumidity_2m,uv_index,is_day,pressure_msl&current_weather=true&forecast_days=1&timezone=Asia%2FBangkok`
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,relativehumidity_2m,uv_index,is_day,pressure_msl${unit}&current_weather=true&forecast_days=1&timezone=Asia%2FBangkok`
         );
         const currentIdx = getWeather.data.hourly.time.indexOf(getWeather.data.current_weather.time);
 
@@ -240,6 +241,8 @@
         weather.value.uv = getWeather.data.hourly.uv_index[currentIdx];
 
         weather.value.pressure = getWeather.data.hourly.pressure_msl[currentIdx];
+
+        weather.value.unitSymbol = getWeather.data.hourly_units.temperature_2m;
 
         setWeather(getWeather.data.current_weather.weathercode);
     } catch (error) {
@@ -258,7 +261,7 @@
         }
     }
 
-    getData(props.lat, props.lon);
+    getData(props.lat, props.lon, homeStore.unit);
     getLocationName(props.lat, props.lon);
     checkIsFav();
 </script>
