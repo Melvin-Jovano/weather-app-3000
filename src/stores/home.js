@@ -4,6 +4,7 @@ import { defineStore } from 'pinia';
 export const homeStores = defineStore('homeStores', () => {
   const weatherHeaderKey = ref(1);
   const filter = ref(null);
+  const unit = ref("");
   const dataWeatherHeader = reactive(
     {
         "location" : "",
@@ -13,7 +14,8 @@ export const homeStores = defineStore('homeStores', () => {
         "pressure" : "",
         "weather" : "",
         "weatherImg" : "",
-        "weatherColor" : "grey"
+        "weatherColor" : "grey",
+        "unitSymbol" : ""
     }
   );
 
@@ -24,12 +26,14 @@ export const homeStores = defineStore('homeStores', () => {
       "weatherImg" : "",
       "weatherColor" : "",
       "day" : "",
-      "date" : ""
+      "date" : "",
+      "unit" : ""
     }
 
   return {
     weatherHeaderKey,
     filter,
+    unit,
     dataWeatherHeader,
     data7Days,
     dataWeather7Days

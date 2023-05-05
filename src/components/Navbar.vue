@@ -38,6 +38,26 @@
             <label class="form-check-label small" for="flexSwitchCheckChecked">Dark mode</label>
           </div>
         </form>
+        <div class="mx-3">
+          <button type="button" 
+          class="btn me-2"
+          :class="{
+            'btn-primary' : homeStore.unit == '',
+            'btn-light' : homeStore.unit == '&temperature_unit=fahrenheit'
+            }" 
+          @click="celcius">
+            Celcius
+          </button>
+          <button type="button" 
+          class="btn" 
+          :class="{
+            'btn-primary' : homeStore.unit == '&temperature_unit=fahrenheit',
+            'btn-light' : homeStore.unit == ''
+            }"
+          @click="fahrenheit">
+            Fahrenheit
+          </button>
+        </div>
       </div>
     </div>
   </nav>
@@ -54,6 +74,16 @@
   const city = ref('');
   const timeoutId = ref(null);
   const selectedCity = ref(null);
+
+  function celcius(){
+    homeStore.unit = "";
+    homeStore.weatherHeaderKey++;
+  }
+
+  function fahrenheit(){
+    homeStore.unit = "&temperature_unit=fahrenheit";
+    homeStore.weatherHeaderKey++;
+  }
   
   async function findCities() {
     try {

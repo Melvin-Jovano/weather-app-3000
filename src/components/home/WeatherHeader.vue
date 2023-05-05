@@ -34,7 +34,7 @@
               {{ store.dataWeatherHeader.weather || "Weather" }}
             </h1>
             <h4>
-              {{ Math.round(Number(store.dataWeatherHeader.currentWeather.temperature)) || "-" }}°c
+              {{ Math.round(Number(store.dataWeatherHeader.currentWeather.temperature)) || "-" }}{{ store.dataWeatherHeader.unitSymbol }}
             </h4>
           </div>
           <div class="d-flex flex-row align-items-end mb-4 me-4">
@@ -171,10 +171,10 @@
     }
     }
 
-    async function getData(lat, long){
+    async function getData(lat, long, unit){
     try {
         const weather = await axios.get(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,relativehumidity_2m,uv_index,is_day,pressure_msl&current_weather=true&forecast_days=1&timezone=Asia%2FBangkok`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,relativehumidity_2m,uv_index,is_day,pressure_msl${unit}&current_weather=true&forecast_days=1&timezone=Asia%2FBangkok`
         );
         const currentIdx = weather.data.hourly.time.indexOf(weather.data.current_weather.time);
 
@@ -185,6 +185,8 @@
         store.dataWeatherHeader.uv = weather.data.hourly.uv_index[currentIdx];
 
         store.dataWeatherHeader.pressure = weather.data.hourly.pressure_msl[currentIdx];
+
+        store.dataWeatherHeader.unitSymbol = weather.data.hourly_units.temperature_2m
 
         setWeather(weather.data.current_weather.weathercode);
     } catch (error) {
@@ -204,10 +206,10 @@
     }
 
     if(store.filter === null) {
-        getData(-6.21, 106.85);
+        getData(-6.21, 106.85, store.unit);
         getLocationName(-6.21, 106.85);
     } else {
-        getData(store.filter.lat, store.filter.lon);
+        getData(store.filter.lat, store.filter.lon, store.unit);
         store.dataWeatherHeader.location = store.filter.display_name;
     }
 </script>

@@ -24,7 +24,7 @@
                     </div>
                     <div class="d-flex flex-column align-items-center text-white">
                         <span style="font-size: 20px;">
-                            {{ i['temp'] }}°c
+                            {{ Math.round(Number(i['temp'])) }}{{ store.dataWeather7Days.unit }}
                         </span>
                         <h5>
                             {{ i['weather'] }}
@@ -94,10 +94,9 @@
         }
     }
 
-    async function getData(lat, long){
+    async function getData(lat, long, unit){
         try {
-            const data = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=weathercode,temperature_2m_max&start_date=${startDate}&end_date=${endDate}&timezone=Asia%2FBangkok`)
-            console.log(data.data)
+            const data = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=weathercode,temperature_2m_max${unit}&start_date=${startDate}&end_date=${endDate}&timezone=Asia%2FBangkok`)
             for(let d in data.data.daily.time){
                 const date = new Date(data.data.daily.time[d])
                 store.dataWeather7Days.temp = data.data.daily.temperature_2m_max[d]
@@ -105,6 +104,8 @@
                 store.dataWeather7Days.date = moment(date).format("DD MMMM, YYYY")
     
                 store.dataWeather7Days.day = moment(date).format("dddd")
+
+                store.dataWeather7Days.unit = data.data.daily_units.temperature_2m_max
     
                 setWeather(data.data.daily.weathercode[d])
                 store.data7Days.push({...store.dataWeather7Days})
@@ -116,9 +117,9 @@
 
     if(store.filter === null) {
         store.data7Days = []
-        getData(-6.21, 106.85);
+        getData(-6.21, 106.85, store.unit);
     }else{
         store.data7Days = []
-        getData(store.filter.lat, store.filter.lon)
+        getData(store.filter.lat, store.filter.lon, store.unit)
     }
 </script>
