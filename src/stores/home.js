@@ -15,11 +15,23 @@ export const homeStores = defineStore('homeStores', () => {
         "weatherImg" : "",
         "weatherColor" : "grey"
     }
-);
+  );
+
+  const data7Days = []
+  const dataWeather7Days = {
+      "temp" : "",
+      "weather" : "",
+      "weatherImg" : "",
+      "weatherColor" : "",
+      "day" : "",
+      "date" : ""
+    }
 
   return {
     weatherHeaderKey,
     filter,
-    dataWeatherHeader
+    dataWeatherHeader,
+    data7Days,
+    dataWeather7Days
   }
 })

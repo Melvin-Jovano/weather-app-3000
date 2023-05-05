@@ -1,6 +1,6 @@
 <template>
   <WeatherHeader :key="store.weatherHeaderKey" />
-  <WeatherBody/>
+  <WeatherBody :key="store.weatherHeaderKey"/>
 </template>
 
 <script setup>
